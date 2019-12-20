@@ -20,6 +20,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -230,6 +231,7 @@ func (g generator) GetWithOptions(options *GetTokenOptions) (Token, error) {
 		if err != nil {
 			return Token{}, fmt.Errorf("could not create session: %v", err)
 		}
+		sess.Config.WithSTSRegionalEndpoint(endpoints.RegionalSTSEndpoint)
 
 		if g.cache {
 			// figure out what profile we're using
